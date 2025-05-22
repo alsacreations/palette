@@ -1,0 +1,627 @@
+/* https://developer.mozilla.org/en/docs/Web/CSS/color_value/oklch */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors */
+/* Design system tokens */
+:root {
+  /* Spacing variables (4px system) */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+
+  /* System colors */
+  --color-black: oklch(0% 0 0);
+  --color-white: oklch(100% 0 0);
+  --color-border: #ccc;
+  --color-muted: #f5f5f5;
+  --color-label: oklch(0% 0 0);
+  --color-gray-05: oklch(97% 0 0);
+  --color-gray-10: oklch(90% 0 0);
+  --color-gray-20: oklch(80% 0 0);
+  --color-gray-30: oklch(70% 0 0);
+  --color-gray-40: oklch(60% 0 0);
+  --color-gray-50: oklch(50% 0 0);
+  --color-gray-60: oklch(40% 0 0);
+  --color-gray-70: oklch(30% 0 0);
+  --color-gray-80: oklch(20% 0 0);
+  --color-orange-10: oklch(100% 0.17 71);
+  --color-orange-20: oklch(99% 0.17 71);
+  --color-orange-30: oklch(89% 0.17 71);
+  --color-orange-40: oklch(79% 0.17 71);
+  --color-orange-50: oklch(69% 0.17 71);
+  --color-orange-60: oklch(59% 0.17 71);
+  --color-orange-70: oklch(49% 0.17 71);
+  --color-orange-80: oklch(39% 0.17 71);
+  --color-tonic-05: oklch(100% 0.1 172);
+  --color-tonic-10: oklch(100% 0.2 172);
+  --color-tonic-20: oklch(93% 0.2 172);
+  --color-tonic-30: oklch(83% 0.2 172);
+  --color-tonic-40: oklch(73% 0.2 172);
+  --color-tonic-50: oklch(63% 0.2 172);
+  --color-tonic-60: oklch(53% 0.2 172);
+  --color-tonic-70: oklch(43% 0.2 172);
+  --color-tonic-80: oklch(33% 0.2 172);
+  --color-tonic-90: oklch(23% 0.2 172);
+  --color-tonic-fade: oklch(53% 0.1 172);
+  --color-tonic-fade-bright: oklch(73% 0.1 172);
+
+  /* Removal of dynamic modification variables */
+
+  /* Simplification of step variables */
+  --step-light: 0.2;
+  --step-sat: 0.05;
+
+  /* Variables for the two base colors */
+  --color-primary: #ff69b4;
+  --color-secondary: #4169e1;
+  --color-accent: light-dark(var(--color-orange-70), var(--color-orange-30));
+  --button-bg: var(--color-tonic-fade);
+  --color-text: light-dark(var(--color-gray-70), var(--color-gray-10));
+  --color-text-contrast: light-dark(var(--color-black), var(--color-white));
+  --bg-body: light-dark(var(--color-gray-05), var(--color-gray-70));
+
+  /* Calculated variables will be managed in JS */
+
+  /* Border radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+
+  /* Sizes */
+  --width-color-picker: 3rem;
+  --size-thumb: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+.app {
+  width: min(100% - 2rem, 105rem);
+  margin-inline: auto;
+  padding-block: 1rem;
+  display: grid;
+  gap: 2rem;
+}
+
+/* Generalities */
+h1,
+h2,
+p,
+li,
+label {
+  font-weight: 200;
+}
+h1 {
+  margin-bottom: var(--spacing-md);
+}
+h1,
+h2,
+a {
+  color: var(--color-accent);
+}
+a:hover,
+a:focus {
+  color: oklch(from var(--color-accent) calc(l + 0.1) c h);
+}
+
+.subtitle {
+  max-width: 90ch;
+  margin: 0;
+  font-size: 0.9em;
+
+  & p {
+    margin-bottom: 0.5lh;
+  }
+}
+input {
+  width: 100%;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: revert;
+}
+
+/* Controls grid */
+.controls {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.color-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.color-inputs input[type="color"] {
+  width: var(--width-color-picker);
+  height: 2rem;
+  padding: 0;
+}
+
+.color-value {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background: var(--color-muted);
+  border-radius: var(--radius-sm);
+  font: 0.875rem/1.2 monospace;
+  overflow-wrap: break-word;
+}
+
+.button {
+  width: 100%;
+  padding: var(--spacing-md);
+  align-self: end;
+  background: var(--button-bg);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: oklch(from var(--button-bg) calc(l + 0.1) c h);
+  }
+}
+
+.button-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1em 0.5em 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  font-style: italic;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    color: oklch(from var(--color-accent) calc(l + 0.1) c h);
+  }
+}
+
+.button-more[aria-expanded="true"] {
+}
+
+.more {
+  margin-block: 1rem;
+}
+
+.more[hidden] {
+  display: none;
+}
+
+/* Focus visible only with keyboard */
+.more:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Styles for color rows */
+.color-palettes {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.palette-section-title {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xl);
+}
+
+.palette-grid {
+  display: grid;
+  row-gap: var(--spacing-lg);
+}
+
+.color-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-md);
+}
+
+.color-row-name {
+  font-size: 1.2rem;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  text-align: end;
+  margin: 0;
+}
+
+.color-row-swatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg) var(--spacing-sm);
+  color-scheme: light;
+
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media (width >= 80rem) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  transition: color 0.2s, outline-color 0.2s;
+  cursor: help;
+
+  @media (width >= 80rem) {
+    /* aspect-ratio: 1; */
+  }
+}
+
+.color-swatch--user {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-offset: 2px;
+}
+
+.color-swatch.high-contrast .color-swatch-info,
+.color-swatch.high-contrast .color-swatch-name,
+.color-swatch.high-contrast .color-swatch-value,
+.color-swatch.high-contrast .color-swatch-contrast {
+  color: white;
+}
+
+.color-swatch-info {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.color-swatch-name {
+  position: absolute;
+  translate: 0 -1.9lh;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  /* color: var(--color-text-contrast); */
+}
+
+.color-swatch-value {
+  font-family: monospace;
+  color: var(--color-text-contrast);
+  font-size: 0.7rem;
+  overflow-wrap: break-word;
+  margin-bottom: 0.25rem; /* Adjusted margin */
+}
+
+.color-swatch-value--hex,
+.color-swatch-value--hsl {
+  /* Specific styles if needed, for now inherits from .color-swatch-value */
+  /* Example: slightly smaller font or different color if desired */
+}
+
+.color-swatch-contrast {
+  margin-top: var(--spacing-md);
+  color: var(--color-text-contrast); /* Ensures it uses the same color as other texts */
+  font-size: 0.7rem;
+  /* Hide by default */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 0.2s, opacity 0.2s linear;
+
+  & p {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  & ul {
+    list-style: disc;
+    padding-left: 0.8rem;
+    margin: 0;
+  }
+
+  & li {
+    font-weight: 400;
+  }
+}
+
+/* Show on hover or focus */
+.color-swatch:hover .color-swatch-contrast,
+.color-swatch:focus .color-swatch-contrast,
+.color-swatch:focus-within .color-swatch-contrast {
+  visibility: visible;
+  opacity: 0.85;
+  transition-delay: 0s;
+}
+
+/* Reset contrast management only on the swatch itself */
+.color-swatch.high-contrast {
+  color: white;
+}
+
+/* Styles for the CSS code block */
+.css-output {
+  width: fit-content;
+  background: var(--color-gray-80);
+  color: var(--color-gray-05);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-x: auto;
+  /* Hide by default */
+  display: none;
+}
+
+/* Display only when there is content in code */
+.css-output code:not(:empty) {
+  display: block;
+}
+
+.css-output:has(code:not(:empty)) {
+  display: block;
+}
+
+/* -------------------/*
+ * CSS Reset "Bretzel"
+ * Made by Alsacréations
+ * Instructions: place in a `reset` layer
+ /* ------------------ */
+@layer reset {
+  /* Automatically adapt to dark and light mode */
+  :root {
+    color-scheme: light dark;
+  }
+
+  /* Switch to border-box model and avoid min-width: auto on flex- and grid-items */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  /* Provide a small margin above targeted anchors */
+  :target {
+    scroll-margin-block: 1rem;
+  }
+
+  /* Avoid page overflows and unwanted zooms in landscape */
+  html {
+    overflow-wrap: break-word;
+    -webkit-text-size-adjust: none;
+  }
+
+  /* Give body full height + various styles */
+  body {
+    min-height: 100dvh;
+    margin: 0;
+    line-height: 1.5;
+    font-family: system-ui, sans-serif;
+    text-rendering: optimizeSpeed;
+    background-color: var(--bg-body);
+    color: var(--color-text);
+  }
+
+  /* Remove styles from lists with a class (accessible version) */
+  :where(ol, ul)[class] {
+    padding-left: 0;
+
+    & > li::marker {
+      content: "";
+    }
+  }
+
+  /* Avoid element overflows */
+  img,
+  table,
+  td,
+  blockquote,
+  pre,
+  code,
+  input,
+  textarea,
+  select,
+  video,
+  svg,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Reduce line height on certain elements */
+  h1,
+  h2,
+  h3,
+  h4,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  /* Improve typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+  p {
+    margin-block: 1lh;
+  }
+
+  /* Preserve display ratio */
+  iframe,
+  img,
+  input,
+  select,
+  textarea {
+    height: auto;
+  }
+
+  /* Default styling for links */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+  }
+  :any-link {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Change these elements to block */
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  iframe,
+  embed,
+  object {
+    display: block;
+  }
+
+  /* Harmonize differences between browsers */
+  input,
+  button,
+  textarea,
+  select {
+    margin: 0;
+    background-color: transparent;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+    vertical-align: middle;
+  }
+  form,
+  fieldset {
+    border: none;
+  }
+  fieldset {
+    margin: 0;
+    padding: 1em;
+  }
+  legend {
+    max-width: 100%;
+    border: 0;
+    color: inherit;
+    white-space: normal;
+  }
+  label {
+    display: inline-block;
+    cursor: pointer;
+  }
+  button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  textarea {
+    overflow: auto;
+    vertical-align: top;
+    white-space: pre-wrap;
+    resize: vertical;
+    field-sizing: content;
+  }
+
+  /* Style preformatted elements */
+  pre,
+  code,
+  kbd,
+  samp {
+    font-size: 1em;
+    font-family: monospace, monospace;
+  }
+  pre {
+    overflow: auto;
+    line-height: normal;
+    white-space: pre-wrap;
+    tab-size: 2;
+  }
+
+  /* Style SVGs */
+  svg:not([fill]) {
+    fill: currentColor;
+  }
+  svg {
+    overflow: visible;
+  }
+  svg * {
+    transform-box: fill-box;
+  }
+  svg:has(symbol) {
+    display: none;
+  }
+
+  /* Correct ARIA styles */
+  [aria-busy="true"] {
+    cursor: progress;
+  }
+  [aria-controls] {
+    cursor: pointer;
+  }
+  [aria-disabled="true"],
+  [disabled] {
+    cursor: not-allowed;
+  }
+  [aria-hidden="false"][hidden] {
+    display: revert;
+  }
+  [aria-hidden="false"][hidden]:not(:focus) {
+    clip: rect(0, 0, 0, 0);
+    position: absolute;
+  }
+
+  /* Hide content on screen while remaining accessible to assistive technologies. */
+  .visually-hidden {
+    position: absolute !important;
+    clip-path: inset(50%) !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  /* Disable animations based on user preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      background-attachment: initial !important;
+      animation-duration: 1ms !important;
+      animation-delay: -1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-delay: 0s !important;
+      transition-duration: 0s !important;
+    }
+  }
+
+  abbr {
+    text-decoration: none;
+    cursor: help;
+  }
+}

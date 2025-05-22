@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="author" content="Raphaël Goetter, Alsacreations" />
+    <title>Color Palette Generator 🎨</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="heading" role="banner">
+        <h1>Let me design your Color Palette for you! 🎨</h1>
+        <div class="subtitle">
+          <p>
+            Automatically generate complete palettes from two base colors,
+            creating harmonious variations in terms of lightness and saturation.
+          </p>
+          <button
+            type="button"
+            class="button-more"
+            aria-expanded="false"
+            aria-controls="more-content"
+          >
+            Learn more?
+            <span class="visually-hidden">about how to use this tool</span>
+          </button>
+          <div
+            id="more-content"
+            class="more"
+            role="region"
+            aria-labelledby="more-title"
+            hidden
+          >
+            <h2 id="more-title" tabindex="-1">How to use it?</h2>
+            <ul>
+              <li>
+                Choose two base colors via color pickers or by filling in the
+                field (keyword, hex, rgb, hsl accepted)
+              </li>
+              <li>
+                Give each color a semantic name (e.g., "raspberry", "ocean")
+              </li>
+              <li>Click on "Generate palettes"</li>
+              <li>
+                The tool automatically generates: variations of your two colors,
+                a complementary tonic color to the main color, a grayscale, and
+                the corresponding CSS variables, ready to use.
+              </li>
+            </ul>
+            <h2>Why <abbr title="Oklab Lightness Chroma Hue">OKLCH</abbr>?</h2>
+            <p>
+              The OKLCH color space offers many advantages over other color
+              spaces in CSS.
+            </p>
+            <ol>
+              <li>
+                <strong>Extended gamut:</strong> OKLCH can represent all
+                displayable colors on modern screens with a wide color range,
+                which is not the case with sRGB (RGB, HSL) which is more
+                limited.
+              </li>
+              <li>
+                <strong>Uniform perception:</strong> OKLCH is based on how the
+                human eye actually perceives colors.
+              </li>
+              <li>
+                <strong>Intuitive manipulation:</strong> unlike RGB or
+                hexadecimal notation, parameters for hue, lightness, and
+                contrasts are intuitive.
+              </li>
+              <li>
+                <strong>Better hue preservation</strong> during transitions or
+                gradients.
+              </li>
+              <li>
+                <strong>Precise contrast control:</strong> The lightness
+                component (L) directly corresponds to perceived brightness,
+                making it easier to create accessible contrasts.
+              </li>
+            </ol>
+            <p>
+              Check out the
+              <a href="https://caniuse.com/mdn-css_types_color_oklch"
+                >browser support</a
+              >
+              for OKLCH, and read the article
+              <a
+                href="https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl"
+                >"OKLCH in CSS: why we moved from RGB and HSL"</a
+              >
+            </p>
+          </div>
+        </div>
+      </header>
+      <form class="controls" id="controls">
+        <div class="control control--color control--color-primary">
+          <label for="colorName1">Primary color</label>
+          <input
+            type="text"
+            id="colorName1"
+            name="colorName1"
+            value="raspberry"
+          />
+          <div class="color-inputs">
+            <input
+              type="color"
+              id="colorPicker1"
+              name="colorPicker1"
+              value="#ff69b4"
+            />
+            <input
+              type="text"
+              id="colorText1"
+              name="colorText1"
+              value="#ff69b4"
+            />
+          </div>
+        </div>
+
+        <!-- Seconde couleur -->
+        <div class="control control--color control--color-secondary">
+          <label for="colorName2">Secondary color</label>
+          <input type="text" id="colorName2" name="colorName2" value="ocean" />
+          <div class="color-inputs">
+            <input
+              type="color"
+              id="colorPicker2"
+              name="colorPicker2"
+              value="#4169e1"
+            />
+            <input
+              type="text"
+              id="colorText2"
+              name="colorText2"
+              value="#4169e1"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="button">Generate palettes</button>
+      </form>
+
+      <div class="color-palettes"></div>
+
+      <pre class="css-output"><code></code></pre>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
